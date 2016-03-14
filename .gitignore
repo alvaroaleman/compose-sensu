@@ -4,4 +4,5 @@
 roles/*
 logs/*
 docker-compose.yml
+library/sensu-server/config.json
 !.gitkeep

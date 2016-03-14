@@ -1,7 +1,7 @@
 version: "2"
 
 services:
-  rabbitmq:
+  {{ rabbitmq.containername }}:
     image: 'rabbitmq:3-management'
     ports:
       - '15672:15672'
@@ -14,12 +14,12 @@ services:
       - /etc/rabbitmq
       - /tmp
     read_only: true
-  redis:
+  {{ redis.containername }}:
     image: 'redis:3-alpine'
     read_only: true
-  sensu_server:
+  {{ sensu_server.containername }}:
     image: sensu_server
     depends_on:
-      - redis
-      - rabbitmq
-    build: library/sensu-server
+      - {{ redis.containername }}
+      - {{ rabbitmq.containername }}
+    build: {{ sensu_server.buildroot }}
