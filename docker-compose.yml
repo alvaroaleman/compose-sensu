@@ -1,0 +1,16 @@
+version: "2"
+
+services:
+  rabbitmq:
+    image: 'rabbitmq:3-management'
+    ports:
+      - '15672:15672'
+    environment:
+      RABBITMQ_DEFAULT_USER: sensu
+      RABBITMQ_DEFAULT_PASS: sensu
+      RABBITMQ_DEFAULT_VHOST: sensu
+    volumes:
+      - /var/lib/rabbitmq
+      - /etc/rabbitmq
+      - /tmp
+    read_only: true
