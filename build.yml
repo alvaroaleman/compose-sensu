@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+  gather_facts: false
+  vars:
+    rabbitmq:
+      user: sensu
+      pass: sensu
+      vhost: '/sensu'
+  tasks:
+    - name: Template compose file
+      template:
+        src: templates/docker-compose.yml.j2
+        dest: docker-compose.yml

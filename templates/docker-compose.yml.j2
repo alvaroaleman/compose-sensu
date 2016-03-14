@@ -6,9 +6,9 @@ services:
     ports:
       - '15672:15672'
     environment:
-      RABBITMQ_DEFAULT_USER: sensu
-      RABBITMQ_DEFAULT_PASS: sensu
-      RABBITMQ_DEFAULT_VHOST: /sensu
+      RABBITMQ_DEFAULT_USER: {{ rabbitmq.user }}
+      RABBITMQ_DEFAULT_PASS: {{ rabbitmq.pass }}
+      RABBITMQ_DEFAULT_VHOST: {{ rabbitmq.vhost }}
     volumes:
       - /var/lib/rabbitmq
       - /etc/rabbitmq

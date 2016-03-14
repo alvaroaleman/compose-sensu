@@ -3,4 +3,5 @@
 *.swo
 roles/*
 logs/*
+docker-compose.yml
 !.gitkeep
