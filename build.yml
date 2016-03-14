@@ -10,6 +10,11 @@
       vhost: '/sensu'
     redis:
       containername: redis
+    # sensu base is used in from directives
+    # and not going to be started
+    sensu_base:
+      buildroot: "{{ buildroot ~ '/sensu-base' }}"
+      imagename: sensu_base
     sensu_server:
       containername: sensu_server
       buildroot: "{{ buildroot ~ '/sensu-server' }}"

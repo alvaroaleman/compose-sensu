@@ -3,8 +3,7 @@ default:
 
 clean:
 	- docker-compose down
-
-build_clean: clean
+	- docker rmi sensu_base
 	- docker rmi sensu_server
 	- docker rmi senu_api
 

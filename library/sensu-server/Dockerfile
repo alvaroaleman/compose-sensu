@@ -1,21 +1,14 @@
-FROM debian:jessie
+FROM sensu_base
 
-ENV CONFIG_DIR /etc/sensu
+VOLUME ${SENSU_CONFIG_DIR}
 
-VOLUME ${CONFIG_DIR}
-
-
-COPY pubkey.gpg /opt/pubkey.gpg
-
-COPY config.json ${CONFIG_DIR}/config.json
+COPY config.json ${SENSU_CONFIG_DIR}/config.json
 
 RUN \
-    apt-key add /opt/pubkey.gpg && \
-    echo "deb     http://repositories.sensuapp.org/apt sensu main" > /etc/apt/sources.list.d/sensu.list && \
     apt-get update && \
     apt-get install --no-install-recommends sensu && \
-    chown -R sensu:sensu ${CONFIG_DIR}
+    chown -R sensu:sensu ${SENSU_CONFIG_DIR}
 
 USER sensu
 
-CMD /opt/sensu/bin/sensu-server -c ${CONFIG_DIR}/config.json -d ${CONFIG_DIR}/conf.d -e ${CONFIG_DIR}/extensions
+CMD /opt/sensu/bin/sensu-server -c ${SENSU_CONFIG_DIR}/config.json -d ${SENSU_CONFIG_DIR}/conf.d -e ${SENSU_CONFIG_DIR}/extensions

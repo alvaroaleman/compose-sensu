@@ -17,6 +17,9 @@ services:
   {{ redis.containername }}:
     image: 'redis:3-alpine'
     read_only: true
+  sensu_base:
+    image: {{ sensu_base.imagename }}
+    build: {{ sensu_base.buildroot }}
   {{ sensu_server.containername }}:
     image: {{ sensu_server.imagename }}
     depends_on:
