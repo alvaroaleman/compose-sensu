@@ -14,3 +14,6 @@ services:
       - /etc/rabbitmq
       - /tmp
     read_only: true
+  redis:
+    image: 'redis:3-alpine'
+    read_only: true
