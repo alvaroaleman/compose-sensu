@@ -3,6 +3,7 @@ default:
 
 clean:
 	- docker-compose down
+	- vagrant destroy -f
 
 template:
 	ansible-playbook build.yml
@@ -10,5 +11,11 @@ template:
 build:
 	docker-compose build
 
-sensu: clean template build
-	docker-compose up
+compose: clean
+	docker-compose up -d
+
+vagrant: clean
+	vagrant up --no-provision
+	vagrant provision
+
+sensu: clean template build compose vagrant

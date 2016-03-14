@@ -1,0 +1,8 @@
+{
+  "rabbitmq": {
+    "host": "{{ ansible_default_ipv4.gateway}}",
+    "vhost": "{{ rabbitmq.vhost }}",
+    "user": "{{ rabbitmq.user }}",
+    "password": "{{ rabbitmq.pass }}"
+  }
+}

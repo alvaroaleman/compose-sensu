@@ -1,32 +1,8 @@
 ---
 - hosts: localhost
   gather_facts: false
-  vars:
-    buildroot: ./library
-    rabbitmq:
-      containername: rabbitmq
-      user: sensu
-      pass: sensu
-      vhost: '/sensu'
-    redis:
-      containername: redis
-    # sensu base is used in from directives
-    # and not going to be started
-    sensu_base:
-      buildroot: "{{ buildroot ~ '/sensu-base' }}"
-      imagename: sensu_base
-    sensu_server:
-      containername: sensu_server
-      buildroot: "{{ buildroot ~ '/sensu-server' }}"
-      imagename: sensu_server
-    sensu_api:
-      containername: sensu_api
-      buildroot: "{{ buildroot ~ '/sensu-api'}}"
-      imagename: sensu_api
-    uchiwa:
-      containername: uchiwa
-      buildroot: "{{ buildroot ~ '/uchiwa'}}"
-      imagename: uchiwa
+  vars_files:
+    - "{{ playbook_dir ~ '/vars/all.yml'}}"
   tasks:
     - name: Template compose file
       template:

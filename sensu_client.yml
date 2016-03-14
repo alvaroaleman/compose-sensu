@@ -1,0 +1,53 @@
+---
+- hosts: all
+  become: true
+  vars_files:
+    - "{{ playbook_dir ~ '/vars/all.yml' }}"
+  handlers:
+    - name: service sensu-client restart
+      service:
+        name: sensu-client
+        state: restarted
+  tasks:
+    - name: Update all packages 
+      register: update
+      yum:
+        name: '*'
+        state: latest
+    - name: Reboot
+      when: "{{ update|changed }}"
+      async: 1
+      poll: 0
+      failed_when: false
+      shell: sleep 2; reboot
+    - name: Wait for ssh to come back
+      wait_for:
+        host: "{{ ansible_host|default(ansible_ssh_host)|default(inventory_hostname)}}"
+        port: "{{ ansible_port|default(ansible_ssh_port|default('22'))}}"
+        search_regex: OpenSSH
+    - name: Deploy repo
+      template:
+        src: "{{ playbook_dir ~ '/templates/sensu.repo.j2' }}" 
+        dest: /etc/yum.repos.d/sensu.repo
+    - name: Install sensu
+      yum:
+        name: sensu
+        state: present
+    - name: Deploy sensu configuration
+      notify: service sensu-client restart
+      template:
+        src: "{{ playbook_dir ~ '/templates/sensu_client_rabbitmq.json.j2'}}"
+        dest: /etc/sensu/config.json
+        owner: sensu
+        group: sensu
+        mode: '0600'
+    - name: Deploy sensu client configuration
+      notify: service sensu-client restart
+      template:
+        src: "{{ playbook_dir ~ '/templates/sensu_client.json.j2' }}"
+        dest: /etc/sensu/conf.d/client.json
+    - name: Start and enable sensu service
+      service:
+        name: sensu-client
+        state: started
+        enabled: true
