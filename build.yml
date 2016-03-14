@@ -10,14 +10,14 @@
       vhost: '/sensu'
     redis:
       containername: redis
-      buildroot: "{{ buildroot ~ '/sensu-server' }}"
     sensu_server:
       containername: sensu_server
+      buildroot: "{{ buildroot ~ '/sensu-server' }}"
   tasks:
     - name: Template compose file
       template:
         src: templates/docker-compose.yml.j2
-        dest: docker-compose.yml
+        dest: "{{ playbook_dir ~ '/docker-compose.yml'}}"
     - name: Template sensu config
       template:
         src: ./templates/sensu_config.json.j2
