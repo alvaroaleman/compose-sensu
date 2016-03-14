@@ -23,6 +23,10 @@
       containername: sensu_api
       buildroot: "{{ buildroot ~ '/sensu-api'}}"
       imagename: sensu_api
+    uchiwa:
+      containername: uchiwa
+      buildroot: "{{ buildroot ~ '/uchiwa'}}"
+      imagename: uchiwa
   tasks:
     - name: Template compose file
       template:

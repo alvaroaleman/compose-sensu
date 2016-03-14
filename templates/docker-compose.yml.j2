@@ -41,3 +41,18 @@ services:
     read_only: true
     volumes_from:
       - {{ sensu_server.containername }}
+  {{ uchiwa.containername }}:
+    image: {{ uchiwa.imagename }}
+    build: {{ uchiwa.buildroot }}
+    depends_on:
+      - {{ sensu_api.containername }}
+    ports:
+      - '80:80'
+    environment:
+      SENSU_NAME: my_sensu
+      SENSU_API_HOST: {{ sensu_api.containername }}
+      HTTP_USER: sensu
+      HTTP_PASS: sensu
+    volumes:
+      - /tmp:/tmp
+    read_only: true

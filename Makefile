@@ -3,12 +3,12 @@ default:
 
 clean:
 	- docker-compose down
-	- docker rmi sensu_base
-	- docker rmi sensu_server
-	- docker rmi senu_api
 
 template:
 	ansible-playbook build.yml
 
-sensu: clean template
+build:
+	docker-compose build
+
+sensu: clean template build
 	docker-compose up
