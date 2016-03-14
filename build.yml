@@ -13,6 +13,11 @@
     sensu_server:
       containername: sensu_server
       buildroot: "{{ buildroot ~ '/sensu-server' }}"
+      imagename: sensu_server
+    sensu_api:
+      containername: sensu_api
+      buildroot: "{{ buildroot ~ '/sensu-api'}}"
+      imagename: sensu_api
   tasks:
     - name: Template compose file
       template:

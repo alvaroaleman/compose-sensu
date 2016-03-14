@@ -18,7 +18,7 @@ services:
     image: 'redis:3-alpine'
     read_only: true
   {{ sensu_server.containername }}:
-    image: sensu_server
+    image: {{ sensu_server.imagename }}
     depends_on:
       - {{ redis.containername }}
       - {{ rabbitmq.containername }}
@@ -26,3 +26,15 @@ services:
     volumes:
       - /tmp:/tmp
     read_only: true
+  {{ sensu_api.containername }}:
+    image: {{ sensu_api.imagename }}
+    build: {{ sensu_api.buildroot }}
+    depends_on:
+      - {{ sensu_server.containername }}
+      - {{ redis.containername }}
+      - {{ rabbitmq.containername }}
+    volumes:
+      - /tmp:/tmp
+    read_only: true
+    volumes_from:
+      - {{ sensu_server.containername }}

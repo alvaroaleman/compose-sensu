@@ -6,6 +6,7 @@ clean:
 
 build_clean: clean
 	- docker rmi sensu_server
+	- docker rmi senu_api
 
 template:
 	ansible-playbook build.yml
