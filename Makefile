@@ -4,6 +4,9 @@ default:
 clean:
 	- docker-compose down
 
+build_clean: clean
+	- docker rmi sensu_server
+
 template:
 	ansible-playbook build.yml
 

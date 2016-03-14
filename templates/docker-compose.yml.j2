@@ -23,3 +23,6 @@ services:
       - {{ redis.containername }}
       - {{ rabbitmq.containername }}
     build: {{ sensu_server.buildroot }}
+    volumes:
+      - /tmp:/tmp
+    read_only: true
